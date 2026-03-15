@@ -1,110 +1,55 @@
-# SolvencyGuard 🛡️
+# SolvencyGuard
 
-**Enterprise Financial Validation Rules Engine**
+A Java/Spring Boot rules engine that checks if financial investment portfolios are legally compliant.
 
-SolvencyGuard is a robust, enterprise-grade REST API built with **Java 17** and **Spring Boot 3**. It acts as a Solvency II-inspired compliance engine, allowing financial institutions to validate investment portfolios against strict risk and exposure limits in real-time.
+## What is it?
+In the financial world, investment funds have strict rules. For example, a mutual fund might not be legally allowed to have more than 40% of its money in stocks, or it must keep at least 15% in cash for emergencies. 
 
----
+Instead of writing one massive `if/else` block, I built **SolvencyGuard**, a back-end REST API that uses the **Strategy Design Pattern**. It takes in a JSON list of investments (a portfolio) and runs them through a dynamic list of compliance rules to calculate if the fund is "Compliant" or "Non-Compliant".
 
-## 🚀 Features
+## Technologies Used
+* **Java 17** 
+* **Spring Boot 3** (Web, Validation)
+* **JUnit 5 & Mockito** (For testing the financial math logic)
+* **Swagger UI / OpenAPI** (For interactive API documentation)
+* **Maven**
 
-- **Strategy Pattern Architecture**: Highly extensible rule execution engine. New compliance rules can be added seamlessly by implementing the `ComplianceRule` interface without modifying core service logic.
-- **Real-Time Validation**: Accepts JSON array of financial holdings and processes them against defined limits.
-- **Core Solvency Rules Implemented**:
-  - `MaxEquityExposureRule`: Ensures total equity exposure never exceeds 40% of the Net Asset Value (NAV).
-  - `MinimumLiquidityRule`: Enforces a hard floor of 15% in Cash or Cash Equivalents for emergency liquidity.
-  - `SingleIssuerLimitRule`: Validates that no single non-cash asset constitutes more than 10% of the total NAV.
-- **Comprehensive Testing**: Validated using JUnit 5 and Mockito, ensuring 100% core logic coverage.
-- **Interactive API Documentation**: Fully documented via OpenAPI 3.0 (Swagger UI).
+## How to run it locally
 
-## 🛠️ Tech Stack
+1. Open your terminal and clone the repository:
+```bash
+git clone https://github.com/yourusername/solvency-guard.git
+cd solvency-guard
+```
 
-- **Backend**: Java 17, Spring Boot 3.4
-- **Web**: Spring WebMVC, Spring Validation
-- **Testing**: JUnit 5, Spring Boot Test
-- **Documentation**: Springdoc OpenAPI / Swagger UI
-- **Build Tool**: Maven
+2. Start the Spring Boot application:
+```bash
+./mvnw spring-boot:run
+```
 
----
+3. Open your browser and go to `http://localhost:8080/swagger-ui.html` to test the API!
 
-## 🚦 Getting Started
+## Example Payload
 
-### Prerequisites
-- JDK 17 or higher
-- Maven 3.8+
-
-### Running the Application
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/solvency-guard.git
-   cd solvency-guard
-   ```
-
-2. Build and run via Maven Wrapper:
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-3. The API will be available at `http://localhost:8080/api/v1/compliance/evaluate`.
-
----
-
-## 📖 API Documentation (Swagger UI)
-
-Once the application is running, you can interact with the API directly through the Swagger UI:
-
-👉 `http://localhost:8080/swagger-ui.html`
-
-### Example Request (`POST /api/v1/compliance/evaluate`)
+You can test the engine by sending this JSON to the `POST /api/v1/compliance/evaluate` endpoint:
 
 ```json
 {
-  "portfolioId": "PRT-90210",
-  "baseCurrency": "EUR",
+  "portfolioId": "PRT-12345",
+  "baseCurrency": "USD",
   "holdings": [
     {
       "isin": "US0378331005",
-      "name": "Apple Inc.",
+      "name": "Apple Stock",
       "assetType": "EQUITY",
       "marketValueEur": 50000.00
     },
     {
-      "isin": "LU0000000000",
-      "name": "Euro Cash",
+      "isin": "USCASH000000",
+      "name": "Cash Reserve",
       "assetType": "CASH",
       "marketValueEur": 15000.00
     }
   ]
 }
 ```
-
-### Example Response
-
-```json
-{
-  "portfolioId": "PRT-90210",
-  "totalNavEur": 65000.0,
-  "status": "NON_COMPLIANT",
-  "evaluations": [
-    {
-      "ruleName": "MaxEquityExposureRule",
-      "passed": false,
-      "message": "Equity exposure is 76.92%, exceeding the 40.0% limit."
-    },
-    {
-      "ruleName": "MinimumLiquidityRule",
-      "passed": true,
-      "message": "Cash exposure is 23.08%, which meets the 15.0% minimum."
-    },
-    {
-      "ruleName": "SingleIssuerLimitRule",
-      "passed": false,
-      "message": "Holding 'Apple Inc.' (US0378331005) constitutes 76.92% of NAV, exceeding the 10.0% single issuer limit."
-    }
-  ]
-}
-```
-
----
-*Built to demonstrate Enterprise Java patterns and Domain-Driven Design in the Financial Services domain.*
