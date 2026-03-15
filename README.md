@@ -1,4 +1,4 @@
-# SolvencyGuard
+#Portfolio-Validator
 
 A Java/Spring Boot rules engine that checks if financial investment portfolios are legally compliant.
 
