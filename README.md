@@ -18,8 +18,8 @@ Instead of writing one massive `if/else` block, I built **SolvencyGuard**, a bac
 
 1. Open your terminal and clone the repository:
 ```bash
-git clone https://github.com/yourusername/solvency-guard.git
-cd solvency-guard
+git clone https://github.com/yourusername/portfolio-validator.git
+cd portfolio-validator
 ```
 
 2. Start the Spring Boot application:

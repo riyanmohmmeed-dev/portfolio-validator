@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.portfolio</groupId>
-	<artifactId>solvency-guard</artifactId>
+	<artifactId>portfolio-validator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>solvency-guard</name>
+	<name>portfolio-validator</name>
 	<description>Enterprise Rules Engine</description>
 	<url/>
 	<licenses>
